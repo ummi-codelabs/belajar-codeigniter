@@ -9,7 +9,13 @@
 
 <body>
 	<h2>Data Mahasiswa</h2>
+	<a href="<?php echo site_url('mahasiswa/form_add'); ?>">Tambah Data</a>
 	<br>
+	<!--notifikasi-->
+	<?php if ($this->session->flashdata('notifikasi')) : ?>
+		<p style="color: green;"><?php echo $this->session->flashdata('notifikasi'); ?></p>
+	<?php endif; ?>
+
 
 	<table border="1" width="45%" cellpadding="5" cellspacing="0">
 		<tr align="center">

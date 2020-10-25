@@ -15,6 +15,11 @@ class Mahasiswa extends CI_Controller {
 
 		// panggil helper
 		$this->load->helper('url');
+		$this->load->helper('form');
+
+		// panggil library
+		$this->load->library('form_validation');
+		$this->load->library('session');
 	}
 
 	//localhost/aplikasi_ci/index.php/mahasiswa/index
@@ -64,5 +69,29 @@ class Mahasiswa extends CI_Controller {
 			];
 
 		$this->load->view('detail_mahasiswa', $data);
+	}
+
+	public function form_add()
+	{
+		$this->form_validation->set_rules('nim', 'NIM', 'required');
+		$this->form_validation->set_rules('nama', 'Nama', 'required');
+
+		if ($this->form_validation->run() === false) {
+			# tampilkan form
+			$this->load->view('form_add_mahasiswa');
+		} else {
+			$nim = $this->input->post('nim', true);
+			$nama = $this->input->post('nama', true);
+
+			// echo $nim;
+
+			// proses insert
+
+			// notifikasi
+			$this->session->set_flashdata('notifikasi', 'Data berhasil disimpan');
+
+			// alihkan ke halaman index
+			redirect('mahasiswa');
+		}
 	}
 }
