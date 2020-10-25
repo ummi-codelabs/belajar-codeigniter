@@ -3,43 +3,35 @@
 class Mahasiswa extends CI_Controller {
 
 	// properti / atribut
-	public $nim = '183051108';
-	public $nama = 'Adang';
+	public $nim = '1930511041';
+	public $nama = 'Resita';
 
 	public function __construct()
 	{
 		parent::__construct();
 
+		// panggil model yang udah dibuat
 		$this->load->model('Mahasiswa_model');
-		
+
+		// panggil helper
+		$this->load->helper('url');
 	}
 
 	//localhost/aplikasi_ci/index.php/mahasiswa/index
 	public function index()
 	{
-		$nama = $this->nama;
-		$nim = $this->nim;
+		//echo 'ini memanggil class mahasiswa method index()';
+
+		// menggunakan method get_all()
+		$mahasiswa = $this->Mahasiswa_model->get_all();
 
 		$data = [
-			'nama_mahasiswa' => $nama,
-			'nim_mahasiswa' => $nim
+			'data_mahasiswa' => $mahasiswa
 		];
 
-		$this->load->view('view_daftar_mahasiswa', $data);
-	}
-
-	public function view_mahasiswa()
-	{
-		$mahasiswa = array(
-			'nim' => $this->nim,
-			'nama' => $this->nama
-		);
-
-		$data = array(
-			'data_mahasiswa' => $mahasiswa
-		);
-
-		$this->load->view('view_mahasiswa', $data);
+		//echo json_encode($mahasiswa);
+		//panggil view
+		$this->load->view('index_mahasiswa', $data);
 	}
 
 	// function menampilkan data
@@ -47,15 +39,30 @@ class Mahasiswa extends CI_Controller {
 	public function tampil_data()
 	{
 		// echo $this->nim;
+		// echo $this->nama;
+
+		// kita coba ambil data nim
+		// menggunakan method get_nim()
 		$nim = $this->Mahasiswa_model->get_nim();
 		echo $nim;
 
 	}
 
-	public function detail()
+	//localhost/aplikasi_ci/index.php/mahasiswa/detail
+	public function detail($param_nim, $param_nama)
 	{
-		$mahasiswa = $this->Mahasiswa_model->get_mahasiswa();
+		// $nim = $this->nim;
+		// $nama = $this->nama;
 
-		echo $mahasiswa['nama'];
+		$nim = $param_nim;
+		$nama = $param_nama;
+
+		$data = [
+				'nim_mahasiswa' => $nim,
+				'nama_mahasiswa' => $nama,
+				'title' => 'data mahasiswa'
+			];
+
+		$this->load->view('detail_mahasiswa', $data);
 	}
 }
